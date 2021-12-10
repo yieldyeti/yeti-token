@@ -9,7 +9,7 @@ contract YetiToken is ERC20 {
   
   string constant NAME = "YETI";
   string constant SYMBOL = "YETI";
-  uint256 TOTAL_SUPPLY = 10000000;
+  uint256 TOTAL_SUPPLY = 100000000;
 
   mapping(address => uint256) balances;
   mapping(address => mapping (address => uint256)) allowed;
