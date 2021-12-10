@@ -1,10 +1,13 @@
 async function main() {
-  // const baseTokenURI = "ipfs://QmZbWNKJPAjxXuNFSEaksCJVd1M6DaKQViJBYPK2BdpDEP/";
   const [owner] = await ethers.getSigners();
   console.log("Deploying contracts with the account:", owner.address, ", Balance:", (await owner.getBalance()).toString());
 
+  const YetiToken = await ethers.getContractFactory("YetiToken");
+  const yetitoken = await YetiToken.deploy();
+  await yetitoken.deployed();
+  console.log("Yeti Token deployed to:", yetitoken.address);
+
   const YetiNFT = await ethers.getContractFactory("YetiNFT");
-  // const yetinft = await YetiNFT.deploy(baseTokenURI);
   const yetinft = await YetiNFT.deploy();
   await yetinft.deployed();
   console.log("Yeti NFT deployed to:", yetinft.address);
