@@ -27,6 +27,9 @@ contract YetiNFT is ERC721Enumerable, Ownable, RoyaltiesV2Impl {
         uint256 tokenPrice;
     }
 
+    uint256 constant a = 100;
+    uint256 constant b = 10000;
+
     mapping(uint256 => details) private _properties;
 
     constructor() ERC721("YetiNFT", "YNFT") {}
@@ -65,6 +68,7 @@ contract YetiNFT is ERC721Enumerable, Ownable, RoyaltiesV2Impl {
     }
 
     function mint(
+        address _to,
         string memory tokenURI,
         string memory tokenSYM,
         string memory tokenAttributes,
@@ -72,7 +76,7 @@ contract YetiNFT is ERC721Enumerable, Ownable, RoyaltiesV2Impl {
         uint96 _percentagePoints
     ) public onlyOwner {
         uint256 newTokenID = _tokenIds.current();
-        _safeMint(msg.sender, newTokenID);
+        _safeMint(_to, newTokenID);
         _setProperties(
             newTokenID,
             tokenURI,
@@ -81,8 +85,8 @@ contract YetiNFT is ERC721Enumerable, Ownable, RoyaltiesV2Impl {
             tokenPrice
         );
         if (_percentagePoints != 0) {
-            address payable royaltyowner = payable(address(msg.sender));
-            _percentagePoints = _percentagePoints * 100;
+            address payable royaltyowner = payable(_to);
+            _percentagePoints = _percentagePoints * a;
             setRoyalties(newTokenID, royaltyowner, _percentagePoints);
         }
         _tokenIds.increment();
@@ -108,7 +112,7 @@ contract YetiNFT is ERC721Enumerable, Ownable, RoyaltiesV2Impl {
         if (_royalties.length > 0) {
             return (
                 _royalties[0].account,
-                (_salePrice * _royalties[0].value) / 10000
+                (_salePrice * _royalties[0].value) / b
             );
         }
         return (address(0), 0);
